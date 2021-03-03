@@ -3,7 +3,10 @@ package com.zeebe.demo;
 import com.zeebe.demo.jobs.ExampleJobHandler;
 import com.zeebe.demo.jobs.ExampleJobHandler1;
 import com.zeebe.demo.jobs.ExampleJobHandler2;
+import io.zeebe.model.bpmn.Bpmn;
 import io.zeebe.model.bpmn.BpmnModelInstance;
+
+import java.io.File;
 
 import static com.zeebe.demo.Client.waitUntilSystemInput;
 
@@ -13,7 +16,7 @@ import static com.zeebe.demo.Client.waitUntilSystemInput;
 public class ClientTest {
 
     public static void main(String[] args) {
-        test();
+        test3();
     }
 
     public static void test() {
@@ -77,5 +80,12 @@ public class ClientTest {
 
         // 关闭客户端
         client.close();
+    }
+
+    public static void test3() {
+        final ModelFactory modelFactory = new ModelFactory();
+        final BpmnModelInstance modelInstance = modelFactory.getModelInstance();
+        String path = "/Users/dwj/Sourcetree/myProject/Zeebe-test/src/main/resources/order-process-test.bpmn";
+        Bpmn.writeModelToFile(new File(path), modelInstance);
     }
 }

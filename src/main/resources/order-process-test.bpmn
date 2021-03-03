@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns0="http://camunda.org/schema/zeebe/1.0" id="definitions_1376430f-3abd-44e2-b4ee-2f10f8592cc9" targetNamespace="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="order-process" isExecutable="true">
+    <startEvent id="order-placed" name="order placed">
+      <outgoing>sequenceFlow_e96f5186-7d2d-4973-a57b-e5bc58c02531</outgoing>
+    </startEvent>
+    <serviceTask id="collect-money" name="collect money">
+      <extensionElements>
+        <ns0:taskDefinition type="taskType"/>
+        <ns0:taskHeaders>
+          <ns0:header key="method" value="VISA"/>
+        </ns0:taskHeaders>
+      </extensionElements>
+      <incoming>sequenceFlow_e96f5186-7d2d-4973-a57b-e5bc58c02531</incoming>
+      <outgoing>sequenceFlow_a2363c1b-e425-4b5a-bfec-ac1ad8ff1825</outgoing>
+    </serviceTask>
+    <sequenceFlow id="sequenceFlow_e96f5186-7d2d-4973-a57b-e5bc58c02531" sourceRef="order-placed" targetRef="collect-money"/>
+    <serviceTask id="payment-service" name="payment service">
+      <incoming>sequenceFlow_a2363c1b-e425-4b5a-bfec-ac1ad8ff1825</incoming>
+      <outgoing>sequenceFlow_74a62ab8-0b90-43e3-b615-6434e41bc8b6</outgoing>
+    </serviceTask>
+    <sequenceFlow id="sequenceFlow_a2363c1b-e425-4b5a-bfec-ac1ad8ff1825" sourceRef="collect-money" targetRef="payment-service"/>
+    <serviceTask id="fetch-item" name="fetch item">
+      <incoming>sequenceFlow_74a62ab8-0b90-43e3-b615-6434e41bc8b6</incoming>
+      <outgoing>sequenceFlow_02f41cb2-5af1-4f76-84a0-ba85023012c8</outgoing>
+    </serviceTask>
+    <sequenceFlow id="sequenceFlow_74a62ab8-0b90-43e3-b615-6434e41bc8b6" sourceRef="payment-service" targetRef="fetch-item"/>
+    <serviceTask id="ship-parcel" name="ship parcel">
+      <incoming>sequenceFlow_02f41cb2-5af1-4f76-84a0-ba85023012c8</incoming>
+      <outgoing>sequenceFlow_e4bc2561-a8b9-4486-9297-f5501529ea50</outgoing>
+    </serviceTask>
+    <sequenceFlow id="sequenceFlow_02f41cb2-5af1-4f76-84a0-ba85023012c8" sourceRef="fetch-item" targetRef="ship-parcel"/>
+    <endEvent id="order-delivered" name="order delivered">
+      <incoming>sequenceFlow_e4bc2561-a8b9-4486-9297-f5501529ea50</incoming>
+    </endEvent>
+    <sequenceFlow id="sequenceFlow_e4bc2561-a8b9-4486-9297-f5501529ea50" sourceRef="ship-parcel" targetRef="order-delivered"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_714ba8dd-a329-4a67-9c2e-2bb4136fc7be">
+    <bpmndi:BPMNPlane bpmnElement="order-process" id="BPMNPlane_c6d67321-1616-42e1-92d7-55c2abf8c94f">
+      <bpmndi:BPMNShape bpmnElement="order-placed" id="BPMNShape_5fe878ca-b572-4b39-be75-d6c451cff0e9">
+        <dc:Bounds height="36.0" width="36.0" x="100.0" y="100.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="collect-money" id="BPMNShape_4de1aae2-62cc-4f64-9760-791a54d9f860">
+        <dc:Bounds height="80.0" width="100.0" x="186.0" y="78.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow_e96f5186-7d2d-4973-a57b-e5bc58c02531" id="BPMNEdge_a9f2ad58-d3dd-4655-95ee-99362f349f8c">
+        <di:waypoint x="136.0" y="118.0"/>
+        <di:waypoint x="186.0" y="118.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="payment-service" id="BPMNShape_c28ddfe4-12dc-496f-852f-a5492427cca8">
+        <dc:Bounds height="80.0" width="100.0" x="336.0" y="78.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow_a2363c1b-e425-4b5a-bfec-ac1ad8ff1825" id="BPMNEdge_d1e89fd0-0f76-415c-b8db-2a509aa5133c">
+        <di:waypoint x="286.0" y="118.0"/>
+        <di:waypoint x="336.0" y="118.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="fetch-item" id="BPMNShape_8eb1d812-0650-436c-ba08-9d5403d7661d">
+        <dc:Bounds height="80.0" width="100.0" x="486.0" y="78.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow_74a62ab8-0b90-43e3-b615-6434e41bc8b6" id="BPMNEdge_0f23f9e7-7b4e-49ef-98b9-04d0570e6fd5">
+        <di:waypoint x="436.0" y="118.0"/>
+        <di:waypoint x="486.0" y="118.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="ship-parcel" id="BPMNShape_d7d218a1-9bfd-4fba-a1cb-1c767dde7aaf">
+        <dc:Bounds height="80.0" width="100.0" x="636.0" y="78.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow_02f41cb2-5af1-4f76-84a0-ba85023012c8" id="BPMNEdge_6bcde011-24a9-440a-9b5c-9097dc3bc803">
+        <di:waypoint x="586.0" y="118.0"/>
+        <di:waypoint x="636.0" y="118.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="order-delivered" id="BPMNShape_b94b842b-4441-43c6-8a63-ab4572a11716">
+        <dc:Bounds height="36.0" width="36.0" x="786.0" y="100.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceFlow_e4bc2561-a8b9-4486-9297-f5501529ea50" id="BPMNEdge_37d8c87e-6c20-4cf1-8551-44afe4af7c25">
+        <di:waypoint x="736.0" y="118.0"/>
+        <di:waypoint x="786.0" y="118.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
